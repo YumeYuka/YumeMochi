@@ -30,7 +30,6 @@ dependencyResolutionManagement {
 rootProject.name = "YumeMochi"
 
 include(":theme")
-include(":basic")
 include(":advanced")
 include(":library")
 include(":example:shared")

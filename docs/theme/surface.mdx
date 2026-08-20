@@ -3,83 +3,87 @@ title: "表面效果"
 icon: "panels-top-left"
 ---
 
-平滑圆角来自 Miuix 的 `miuix-squircle`，背景捕获和模糊来自 `miuix-blur`，`basic` 依赖前者，`advanced` 对外导出后者的 `Backdrop` 类型，因此使用玻璃表面时不需要额外声明 Miuix Blur 依赖
+平滑圆角来自 Miuix 的 `miuix-squircle`，背景捕获和模糊来自 `miuix-blur`，YumeMochi 通过 `advanced` 传递提供两个工件，使用时直接调用 Miuix 原始 API
 
-| Miuix 工件 | YumeMochi 模块 | 用途 |
+| Miuix 工件 | 原始 API | 用途 |
 | --- | --- | --- |
-| `miuix-squircle` | `basic` | 通过 `squircleSurface` 绘制连续圆角表面 |
-| `miuix-blur` | `advanced` | 通过 `LayerBackdrop`、`drawBackdrop` 和 `blur` 捕获并处理背景 |
+| `miuix-squircle` | `squircleSurface` | 绘制连续圆角表面 |
+| `miuix-blur` | `LayerBackdrop`、`drawBackdrop`、`blur` | 捕获并处理背景 |
 
 ## 圆角表面
 
-`yumeMochiSurface` 是对 Miuix Squircle 的主题化封装：它提供 `MochiTheme.colors.bg` 和 `MochiTheme.radius.sm` 作为默认值，适合普通容器、列表项和基础卡片
+YumeMochi 不包装 Miuix Squircle，直接调用 `squircleSurface`，主题 token 可以作为它的参数
 
 ```kotlin
+import top.yukonga.miuix.kmp.squircle.squircleSurface
+
 Box(
     modifier = Modifier
-        .yumeMochiSurface()
+        .squircleSurface(
+            color = MochiTheme.colors.bg,
+            cornerRadius = MochiTheme.radius.sm,
+        )
         .padding(MochiTheme.spacing.xl),
 )
 ```
 
-<ParamField path="cornerRadius" type="Dp" default="MochiTheme.radius.sm">
-  连续圆角半径
-</ParamField>
-
-**平台行为：** Miuix 在支持 runtime shader 的环境中绘制 Squircle，<u>不可用时会自动回退为普通圆角</u>，Android 与 Windows Desktop 调用同一个 YumeMochi API，不需要手写平台分支
+**平台行为：** Miuix 在支持 runtime shader 的环境中绘制 Squircle，<u>不可用时会自动回退为普通圆角</u>，Android 与 Windows Desktop 使用同一套 API，不需要手写平台分支
 
 ## 玻璃表面
 
-`MochiGlassSurface` 是对 Miuix Blur 的主题化封装：它接收捕获下层内容的 `Backdrop`，再绘制模糊、覆盖色与连续圆角，先创建并挂载背景捕获器，再传入玻璃组件
+YumeMochi 不包装 Miuix Blur，直接创建 `LayerBackdrop` 并按 Miuix 的方式绘制背景模糊
 
 <Steps>
   <Step title="创建">
     使用 `rememberLayerBackdrop()` 创建 `LayerBackdrop`
   </Step>
   <Step title="挂载">
-    把 `Modifier.layerBackdrop(backdrop)` 加到背景和玻璃表面的共同容器
-  </Step>
-  <Step title="传入">
-    将同一 `backdrop` 传给 `MochiGlassSurface`
+    把 `Modifier.layerBackdrop(backdrop)` 加到背景和模糊表面的共同容器
   </Step>
 </Steps>
 
 ```kotlin
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.dp
+import moe.yumeyuka.yumemochi.theme.MochiTheme
+import top.yukonga.miuix.kmp.blur.blur
+import top.yukonga.miuix.kmp.blur.drawBackdrop
+import top.yukonga.miuix.kmp.blur.layerBackdrop
+import top.yukonga.miuix.kmp.blur.rememberLayerBackdrop
+import top.yukonga.miuix.kmp.squircle.squircleSurface
+
 @Composable
 fun GlassPanel() {
     val backdrop = rememberLayerBackdrop()
+    val shape = RoundedCornerShape(MochiTheme.radius.md)
 
     Box(Modifier.layerBackdrop(backdrop)) {
         BackgroundContent()
-        MochiGlassSurface(backdrop = backdrop) {
+        Box(
+            modifier = Modifier
+                .clip(shape)
+                .drawBackdrop(
+                    backdrop = backdrop,
+                    shape = { shape },
+                    effects = { blur(20.dp.toPx()) },
+                    onDrawSurface = {
+                        drawRect(MochiTheme.colors.bg.copy(alpha = 0.72f))
+                    },
+                )
+                .squircleSurface(
+                    color = Color.Transparent,
+                    cornerRadius = MochiTheme.radius.md,
+                ),
+        ) {
             ForegroundContent()
         }
     }
 }
 ```
-
-<ParamField path="backdrop" type="Backdrop" required={true}>
-  从共同背景容器捕获的实例
-</ParamField>
-
-<ParamField path="modifier" type="Modifier" default="Modifier">
-  玻璃容器的外层 Modifier
-</ParamField>
-
-<ParamField path="blurRadius" type="Dp" default="20.dp">
-  模糊半径
-</ParamField>
-
-<ParamField path="containerColor" type="Color" default="MochiTheme.colors.bg.copy(alpha = 0.72f)">
-  模糊上方的覆盖色
-</ParamField>
-
-<ParamField path="cornerRadius" type="Dp" default="MochiTheme.radius.md">
-  裁剪与表面共用的连续圆角
-</ParamField>
-
-<ParamField path="content" type="@Composable () -> Unit" required={true}>
-  渲染在玻璃上的内容
-</ParamField>
 
 **性能：** 模糊会捕获并处理背景像素，<u>将它用于菜单、弹窗和小型浮层，不要作为页面根背景或长列表的每一项</u>，当 runtime shader 不可用时，Miuix 会停止模糊绘制，但内容和覆盖色仍会正常显示

@@ -21,10 +21,11 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import moe.yumeyuka.yumemochi.advanced.YumeMochiCard
+import moe.yumeyuka.yumemochi.advanced.MochiCard
 import moe.yumeyuka.yumemochi.theme.MochiIcon
 import moe.yumeyuka.yumemochi.theme.MochiTheme
 import io.github.yumeyucca.lucide.Lucide
+import io.github.yumeyucca.lucide.lucide.Info
 
 private data class ExampleItem(
     val title: String,
@@ -66,7 +67,7 @@ public fun ExampleApp() {
                 verticalArrangement = Arrangement.spacedBy(12.dp),
             ) {
                 items(items, key = ExampleItem::title) { item ->
-                    YumeMochiCard(
+                    MochiCard(
                         title = item.title,
                         description = item.description,
                         modifier = Modifier.fillMaxWidth(),

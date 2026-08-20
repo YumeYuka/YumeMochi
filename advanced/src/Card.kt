@@ -16,37 +16,39 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import moe.yumeyuka.yumemochi.basic.yumeMochiSurface
 import moe.yumeyuka.yumemochi.theme.MochiTheme
+import top.yukonga.miuix.kmp.squircle.squircleSurface
 
-/**
- * A simple elevated-content container with the library's standard squircle surface.
- *
- * @param title Primary card label.
- * @param description Supporting text below [title].
- * @param modifier Modifier applied to the outer card container.
- */
+/** A compact elevated card using the active YumeMochi tokens. */
 @Composable
-public fun YumeMochiCard(
+public fun MochiCard(
     title: String,
     description: String,
     modifier: Modifier = Modifier,
 ) {
     val colors = MochiTheme.colors
 
-    Column(modifier = modifier.yumeMochiSurface().padding(16.dp)) {
+    Column(
+        modifier = modifier
+            .squircleSurface(
+                color = colors.bg,
+                cornerRadius = MochiTheme.radius.sm,
+            )
+            .padding(MochiTheme.spacing.xl),
+    ) {
         BasicText(
             text = title,
-            style =
-                TextStyle(
-                    color = colors.text1,
-                    fontSize = 16.sp,
-                    fontWeight = FontWeight.SemiBold,
-                ),
+            style = TextStyle(
+                color = colors.text1,
+                fontSize = 16.sp,
+                fontWeight = FontWeight.SemiBold,
+            ),
         )
         BasicText(
             text = description,
-            modifier = Modifier.fillMaxWidth().padding(top = 4.dp),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = MochiTheme.spacing.xs),
             style = TextStyle(color = colors.text2, fontSize = 14.sp),
         )
     }
