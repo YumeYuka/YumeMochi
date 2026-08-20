@@ -3,87 +3,21 @@ title: "表面效果"
 icon: "panels-top-left"
 ---
 
-平滑圆角来自 Miuix 的 `miuix-squircle`，背景捕获和模糊来自 `miuix-blur`，YumeMochi 通过 `advanced` 传递提供两个工件，使用时直接调用 Miuix 原始 API
+平滑圆角与背景模糊来自 [Miuix](https://compose-miuix-ui.github.io/miuix/zh_CN/)，YumeMochi 只传递它的依赖，不重新包装 API
 
-| Miuix 工件 | 原始 API | 用途 |
+## 依赖来源
+
+引入完整的 YumeMochi 后，`advanced` 会通过 `api` 传递这两个 Miuix 工件，无需重复声明，版本与项目保持一致
+
+| Miuix 工件 | 版本 | 用途 |
 | --- | --- | --- |
-| `miuix-squircle` | `squircleSurface` | 绘制连续圆角表面 |
-| `miuix-blur` | `LayerBackdrop`、`drawBackdrop`、`blur` | 捕获并处理背景 |
+| `miuix-squircle` | `0.9.3` | 平滑圆角 |
+| `miuix-blur` | `0.9.3` | 背景模糊 |
 
-## 圆角表面
+<u>YumeMochi 不封装 Miuix 的 API，也不替代它的使用文档</u>
 
-YumeMochi 不包装 Miuix Squircle，直接调用 `squircleSurface`，主题 token 可以作为它的参数
+## 官方文档
 
-```kotlin
-import top.yukonga.miuix.kmp.squircle.squircleSurface
+平滑圆角的配置、参数与示例请查看 [Miuix 平滑圆角指南](https://compose-miuix-ui.github.io/miuix/zh_CN/guide/squircle)
 
-Box(
-    modifier = Modifier
-        .squircleSurface(
-            color = MochiTheme.colors.bg,
-            cornerRadius = MochiTheme.radius.sm,
-        )
-        .padding(MochiTheme.spacing.xl),
-)
-```
-
-**平台行为：** Miuix 在支持 runtime shader 的环境中绘制 Squircle，<u>不可用时会自动回退为普通圆角</u>，Android 与 Windows Desktop 使用同一套 API，不需要手写平台分支
-
-## 玻璃表面
-
-YumeMochi 不包装 Miuix Blur，直接创建 `LayerBackdrop` 并按 Miuix 的方式绘制背景模糊
-
-<Steps>
-  <Step title="创建">
-    使用 `rememberLayerBackdrop()` 创建 `LayerBackdrop`
-  </Step>
-  <Step title="挂载">
-    把 `Modifier.layerBackdrop(backdrop)` 加到背景和模糊表面的共同容器
-  </Step>
-</Steps>
-
-```kotlin
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.unit.dp
-import moe.yumeyuka.yumemochi.theme.MochiTheme
-import top.yukonga.miuix.kmp.blur.blur
-import top.yukonga.miuix.kmp.blur.drawBackdrop
-import top.yukonga.miuix.kmp.blur.layerBackdrop
-import top.yukonga.miuix.kmp.blur.rememberLayerBackdrop
-import top.yukonga.miuix.kmp.squircle.squircleSurface
-
-@Composable
-fun GlassPanel() {
-    val backdrop = rememberLayerBackdrop()
-    val shape = RoundedCornerShape(MochiTheme.radius.md)
-
-    Box(Modifier.layerBackdrop(backdrop)) {
-        BackgroundContent()
-        Box(
-            modifier = Modifier
-                .clip(shape)
-                .drawBackdrop(
-                    backdrop = backdrop,
-                    shape = { shape },
-                    effects = { blur(20.dp.toPx()) },
-                    onDrawSurface = {
-                        drawRect(MochiTheme.colors.bg.copy(alpha = 0.72f))
-                    },
-                )
-                .squircleSurface(
-                    color = Color.Transparent,
-                    cornerRadius = MochiTheme.radius.md,
-                ),
-        ) {
-            ForegroundContent()
-        }
-    }
-}
-```
-
-**性能：** 模糊会捕获并处理背景像素，<u>将它用于菜单、弹窗和小型浮层，不要作为页面根背景或长列表的每一项</u>，当 runtime shader 不可用时，Miuix 会停止模糊绘制，但内容和覆盖色仍会正常显示
+背景模糊的配置、平台限制与示例请查看 [Miuix 模糊指南](https://compose-miuix-ui.github.io/miuix/zh_CN/guide/blur)
