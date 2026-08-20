@@ -12,6 +12,7 @@ import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.plugins.ExtensionAware
 import org.gradle.kotlin.dsl.configure
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 
 public class YumeMochiKmpLibraryPlugin : Plugin<Project> {
@@ -28,7 +29,12 @@ public class YumeMochiKmpLibraryPlugin : Plugin<Project> {
 
         val kotlinExtension = target.extensions.getByType(KotlinMultiplatformExtension::class.java)
         kotlinExtension.apply {
-            jvm("desktop")
+            jvmToolchain(YumeMochiBuild.jvmToolchain)
+            jvm("desktop") {
+                compilerOptions {
+                    jvmTarget.set(JvmTarget.JVM_25)
+                }
+            }
             sourceSets.getByName("commonMain").kotlin.srcDir("src")
             sourceSets.getByName("androidMain").kotlin.srcDir("android")
             sourceSets.getByName("desktopMain").kotlin.srcDir("desktop")

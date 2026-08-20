@@ -20,14 +20,10 @@ data class ThemeState(
     val dark: Boolean,
     /** Active color tokens for Yume UI components. */
     val colors: Colors,
-    /** Additional color variants for badges, labels, and lightweight status surfaces. */
+    /** Active semantic status colors. */
     val extraColors: ExtraColors,
     /** Active text style tokens for Yume UI components. */
     val textStyles: TextStyles,
-    /** Active icon size tokens for Yume UI components. */
-    val iconSize: IconSizes,
-    /** Active corner radius tokens for Yume UI components. */
-    val radius: Radius,
     /** Active spacing tokens for Yume UI layouts and components. */
     val spacing: Spacing,
     /** Active scalar tokens for proportional values. */
@@ -44,7 +40,7 @@ object MochiTheme {
         @ReadOnlyComposable
         get() = LocalThemeState.current.colors
 
-    /** Additional color variants. */
+    /** Active semantic status colors. */
     val extraColors: ExtraColors
         @Composable
         @ReadOnlyComposable
@@ -55,18 +51,6 @@ object MochiTheme {
         @Composable
         @ReadOnlyComposable
         get() = LocalThemeState.current.textStyles
-
-    /** Active icon size tokens. */
-    val iconSize: IconSizes
-        @Composable
-        @ReadOnlyComposable
-        get() = LocalThemeState.current.iconSize
-
-    /** Active corner radius tokens. */
-    val radius: Radius
-        @Composable
-        @ReadOnlyComposable
-        get() = LocalThemeState.current.radius
 
     /** Active spacing tokens. */
     val spacing: Spacing
@@ -90,14 +74,10 @@ object MochiTheme {
 /**
  * Provides YumeMochi design tokens to [content].
  *
- * Supply [colors] and [extraColors] together when using a custom palette so semantic colors
- * remain consistent with [dark]. The remaining token groups may be overridden independently.
+ * The remaining token groups may be overridden independently.
  *
  * @param dark Whether the supplied palette represents dark mode. Defaults to the system setting.
  * @param colors Primary semantic colors used by all YumeMochi components.
- * @param extraColors Status and lightweight-surface semantic colors.
- * @param iconSize Standard icon dimensions used by [MochiIcon].
- * @param radius Standard continuous-corner radii used by foundational surfaces.
  * @param spacing Standard layout spacing values.
  * @param scale Ratios used to derive token values, such as paragraph line height.
  * @param textStyles Typography tokens used by text components.
@@ -108,8 +88,6 @@ fun MochiTheme(
     dark: Boolean = isSystemInDarkTheme(),
     colors: Colors = platformColors(dark),
     extraColors: ExtraColors = defaultExtraColors(dark),
-    iconSize: IconSizes = DefaultIconSizes,
-    radius: Radius = DefaultRadius,
     spacing: Spacing = DefaultSpacing,
     scale: Scale = DefaultScale,
     textStyles: TextStyles = defaultTextStyles(scale = scale),
@@ -121,8 +99,6 @@ fun MochiTheme(
             colors = colors,
             extraColors = extraColors,
             textStyles = textStyles,
-            iconSize = iconSize,
-            radius = radius,
             spacing = spacing,
             scale = scale,
         ),
@@ -138,8 +114,6 @@ internal val LocalThemeState = staticCompositionLocalOf {
         colors = lightColors(),
         extraColors = lightExtraColors(),
         textStyles = DefaultTextStyles,
-        iconSize = DefaultIconSizes,
-        radius = DefaultRadius,
         spacing = DefaultSpacing,
         scale = DefaultScale,
     )

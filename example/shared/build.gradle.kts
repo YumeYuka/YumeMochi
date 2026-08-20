@@ -6,9 +6,10 @@ kotlin {
     sourceSets {
         getByName("commonMain").dependencies {
             implementation(project(":theme"))
-            implementation(project(":advanced"))
+            implementation(project(":components"))
             implementation(libs.compose.foundation)
             implementation(libs.compose.ui)
+            implementation(libs.miuix.ui)
         }
     }
 }

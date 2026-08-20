@@ -1,0 +1,100 @@
+---
+title: "ToastHost"
+icon: "layers"
+---
+
+`ToastHost` 是通知容器。它最多显示三条通知，并负责队列、堆叠、自动退场和顶部/底部方向。
+
+## 引入
+
+```kotlin
+import moe.yumeyuka.yumemochi.components.toast.ToastDefaults
+import moe.yumeyuka.yumemochi.components.toast.ToastHost
+import moe.yumeyuka.yumemochi.components.toast.rememberToastHostState
+```
+
+## 基本用法
+
+在页面根 `Box` 中创建状态、发送通知并放置 Host。
+
+```kotlin
+val toastHostState = rememberToastHostState()
+
+onClick = {
+    toastHostState.show(
+        title = "Saved",
+        description = "Your changes are synced.",
+        style = ToastDefaults.success(),
+    )
+}
+
+ToastHost(
+    state = toastHostState,
+    modifier = Modifier
+        .align(Alignment.TopCenter)
+        .padding(horizontal = 16.dp, vertical = 24.dp),
+)
+```
+
+## Bottom
+
+`Bottom` 从下方进入、向下退出，并向上堆叠。
+
+```kotlin
+import moe.yumeyuka.yumemochi.components.toast.ToastPlacement
+
+ToastHost(
+    state = toastHostState,
+    placement = ToastPlacement.Bottom,
+    modifier = Modifier
+        .align(Alignment.BottomCenter)
+        .padding(horizontal = 16.dp, vertical = 24.dp),
+)
+```
+
+## 属性
+
+<ParamField path="state" type="ToastHostState" required>
+通知队列。
+</ParamField>
+
+<ParamField path="modifier" type="Modifier" default="Modifier">
+页面位置。
+</ParamField>
+
+<ParamField path="placement" type="ToastPlacement" default="ToastPlacement.Top">
+`Top` 或 `Bottom`。
+</ParamField>
+
+## ToastHostState
+
+<ParamField path="title" type="String" required>
+`show()` 标题。
+</ParamField>
+
+<ParamField path="description" type="String?" default="null">
+`show()` 副文本。
+</ParamField>
+
+<ParamField path="style" type="ToastStyle?" default="null">
+`show()` 样式。
+</ParamField>
+
+<ParamField path="id" type="Long" required>
+`show()` 返回值，传给 `dismiss()`。
+</ParamField>
+
+## 进阶用法
+
+任务完成前移除通知。
+
+```kotlin
+val toastId = toastHostState.show(
+    title = "Uploading file",
+    style = ToastDefaults.accent(),
+)
+
+uploadFile()
+
+toastHostState.dismiss(toastId)
+```

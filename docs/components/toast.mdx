@@ -1,0 +1,101 @@
+---
+title: "Toast"
+icon: "message-square"
+---
+
+`Toast` 是通知卡片组件，用于展示图标、标题和副文本。使用 [ToastHost](/components/toast-host) 管理通知队列、堆叠和进出动画。
+
+## 引入
+
+```kotlin
+import moe.yumeyuka.yumemochi.components.toast.Toast
+import moe.yumeyuka.yumemochi.components.toast.ToastDefaults
+```
+
+## 基本用法
+
+```kotlin
+Toast(
+    title = "Saved",
+    description = "Your changes are synced.",
+    style = ToastDefaults.success(),
+)
+```
+
+## 属性
+
+<ParamField path="title" type="String" required>
+标题。
+</ParamField>
+
+<ParamField path="description" type="String?" default="null">
+副文本。
+</ParamField>
+
+<ParamField path="modifier" type="Modifier" default="Modifier">
+布局修饰符。
+</ParamField>
+
+<ParamField path="style" type="ToastStyle" default="ToastDefaults.default()">
+图标与颜色。
+</ParamField>
+
+## ToastDefaults
+
+<ParamField path="default()" type="ToastStyle" default="Info">
+默认通知。
+</ParamField>
+
+<ParamField path="accent()" type="ToastStyle" default="BadgeInfo">
+强调通知。
+</ParamField>
+
+<ParamField path="success()" type="ToastStyle" default="CircleCheck">
+成功通知。
+</ParamField>
+
+<ParamField path="warning()" type="ToastStyle" default="TriangleAlert">
+警告通知。
+</ParamField>
+
+<ParamField path="error()" type="ToastStyle" default="CircleX">
+错误通知。
+</ParamField>
+
+## ToastStyle
+
+<ParamField path="icon" type="ImageVector" required>
+图标。
+</ParamField>
+
+<ParamField path="containerColor" type="Color" required>
+卡片背景色。
+</ParamField>
+
+<ParamField path="titleColor" type="Color" required>
+标题颜色。
+</ParamField>
+
+<ParamField path="contentColor" type="Color" required>
+副文本颜色。
+</ParamField>
+
+<ParamField path="iconColor" type="Color" required>
+图标颜色。
+</ParamField>
+
+## 进阶用法
+
+从预设开始覆盖需要改变的字段。
+
+```kotlin
+import moe.yumeyuka.yumemochi.theme.MochiTheme
+
+Toast(
+    title = "Upload needs attention",
+    style = ToastDefaults.warning(
+        containerColor = MochiTheme.colors.bgAlt,
+        contentColor = MochiTheme.colors.text3,
+    ),
+)
+```

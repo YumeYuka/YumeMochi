@@ -13,6 +13,7 @@ public object YumeMochiBuild {
     public const val compileSdk: Int = 37
     public const val minSdk: Int = 33
     public const val targetSdk: Int = 37
+    public const val jvmToolchain: Int = 25
 
     public fun namespace(projectPath: String): String = group + projectPath.replace(':', '.')
 }

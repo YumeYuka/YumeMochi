@@ -10,6 +10,7 @@ import moe.yumeyuka.yumemochi.build.config.YumeMochiBuild
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.configure
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.dsl.KotlinJvmProjectExtension
 
 public class YumeMochiDesktopApplicationPlugin : Plugin<Project> {
@@ -24,6 +25,10 @@ public class YumeMochiDesktopApplicationPlugin : Plugin<Project> {
         }
 
         target.extensions.configure<KotlinJvmProjectExtension> {
+            jvmToolchain(YumeMochiBuild.jvmToolchain)
+            compilerOptions {
+                jvmTarget.set(JvmTarget.JVM_25)
+            }
             sourceSets.getByName("main").kotlin.srcDir("src")
         }
     }

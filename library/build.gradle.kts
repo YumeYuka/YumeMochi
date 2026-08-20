@@ -8,7 +8,7 @@ kotlin {
     sourceSets {
         getByName("commonMain").dependencies {
             api(project(":theme"))
-            api(project(":advanced"))
+            api(project(":components"))
         }
     }
 }

@@ -7,72 +7,111 @@
 package moe.yumeyuka.yumemochi.example
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.text.BasicText
+import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import moe.yumeyuka.yumemochi.advanced.MochiCard
-import moe.yumeyuka.yumemochi.theme.MochiIcon
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import moe.yumeyuka.yumemochi.components.toast.ToastDefaults
+import moe.yumeyuka.yumemochi.components.toast.ToastHost
+import moe.yumeyuka.yumemochi.components.toast.ToastPlacement
+import moe.yumeyuka.yumemochi.components.toast.rememberToastHostState
 import moe.yumeyuka.yumemochi.theme.MochiTheme
-import io.github.yumeyucca.lucide.Lucide
-import io.github.yumeyucca.lucide.lucide.Info
-
-private data class ExampleItem(
-    val title: String,
-    val description: String,
-)
+import top.yukonga.miuix.kmp.basic.TextButton
+import top.yukonga.miuix.kmp.theme.MiuixTheme
+import top.yukonga.miuix.kmp.theme.ThemeController
 
 @Composable
-public fun ExampleApp() {
+fun ExampleApp() {
     MochiTheme {
-        val colors = MochiTheme.colors
-        val items = listOf(
-            ExampleItem("Theme", "Shared colors and composition locals."),
-            ExampleItem("Base", "Basic reusable UI building blocks."),
-            ExampleItem("Advanced", "Higher-level reusable UI components."),
-        )
+        MiuixTheme(controller = remember { ThemeController() }) {
+            val toastHostState = rememberToastHostState()
+            val bottomToastHostState = rememberToastHostState()
+            val scope = rememberCoroutineScope()
+            val successStyle = ToastDefaults.success()
+            val warningStyle = ToastDefaults.warning()
+            val colors = MochiTheme.colors
 
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(colors.bg)
-                .padding(24.dp),
-            verticalArrangement = Arrangement.spacedBy(20.dp),
-        ) {
-            BasicText(
-                text = "YumeMochi Example",
-                style = TextStyle(
-                    color = colors.text1,
-                    fontSize = 24.sp,
-                    fontWeight = FontWeight.Bold,
-                ),
-            )
-            MochiIcon(
-                imageVector = Lucide.Info,
-                contentDescription = null,
-                size = MochiTheme.iconSize.lg,
-            )
-            LazyColumn(
-                modifier = Modifier.fillMaxWidth(),
-                verticalArrangement = Arrangement.spacedBy(12.dp),
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(colors.bgAlt),
             ) {
-                items(items, key = ExampleItem::title) { item ->
-                    MochiCard(
-                        title = item.title,
-                        description = item.description,
-                        modifier = Modifier.fillMaxWidth(),
+                Column(
+                    modifier = Modifier
+                        .align(Alignment.Center)
+                        .padding(24.dp),
+                    verticalArrangement = Arrangement.spacedBy(16.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                ) {
+                    TextButton(
+                        text = "Show short toast",
+                        onClick = {
+                            toastHostState.show(
+                                title = "Saved",
+                                description = "Your changes are synced.",
+                                style = successStyle,
+                            )
+                        },
+                    )
+                    TextButton(
+                        text = "Show detailed toast",
+                        onClick = {
+                            toastHostState.show(
+                                title = "Download completed with additional information",
+                                description = "Three files need review before they can be opened. " +
+                                    "The remaining files were saved to your Downloads folder.",
+                                style = warningStyle,
+                            )
+                        },
+                    )
+                    TextButton(
+                        text = "Show bottom toast",
+                        onClick = {
+                            bottomToastHostState.show(
+                                title = "Saved",
+                                description = "This Toast enters from the bottom.",
+                                style = successStyle,
+                            )
+                        },
+                    )
+                    TextButton(
+                        text = "Long toast then short toast",
+                        onClick = {
+                            scope.launch {
+                                toastHostState.show(
+                                    title = "Download completed with additional information",
+                                    description = "Three files need review before they can be opened. " +
+                                        "The remaining files were saved to your Downloads folder.",
+                                    style = warningStyle,
+                                )
+                                delay(420)
+                                toastHostState.show(
+                                    title = "Saved",
+                                    description = "Your changes are synced.",
+                                    style = successStyle,
+                                )
+                            }
+                        },
                     )
                 }
+                ToastHost(
+                    state = toastHostState,
+                    modifier = Modifier
+                        .align(Alignment.TopCenter)
+                        .padding(horizontal = 16.dp, vertical = 24.dp),
+                )
+                ToastHost(
+                    state = bottomToastHostState,
+                    placement = ToastPlacement.Bottom,
+                    modifier = Modifier
+                        .align(Alignment.BottomCenter)
+                        .padding(horizontal = 16.dp, vertical = 24.dp),
+                )
             }
         }
     }

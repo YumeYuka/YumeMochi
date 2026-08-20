@@ -3,38 +3,124 @@ title: "排版尺寸"
 icon: "type"
 ---
 
-从 `MochiTheme.textStyles` 读取文字样式，文字颜色由组件明确指定
+`MochiTheme.textStyles` 提供可直接交给 Compose 文本组件的 `TextStyle`。文字颜色由组件或调用处通过 `copy(color = ...)` 明确指定。
 
 ```kotlin
+import moe.yumeyuka.yumemochi.theme.MochiTheme
+
 BasicText(
-    text = "设置",
+    text = "Settings",
     style = MochiTheme.textStyles.title2.copy(
         color = MochiTheme.colors.text1,
     ),
 )
 ```
 
-| 字段 | 默认字号 | 用途 |
-| --- | --- | --- |
-| `main` | 17.sp | 默认正文 |
-| `body1`、`body2` | 16.sp、14.sp | 常规与紧凑正文 |
-| `paragraph` | 17.sp | 多行正文 |
-| `button` | 17.sp | 中等字重控件标签 |
-| `footnote1`、`footnote2` | 13.sp、11.sp | 辅助说明 |
-| `headline1`、`headline2` | 18.sp、16.sp | 分区标题 |
-| `subtitle` | 14.sp | 加粗辅助标题 |
-| `title1` 至 `title4` | 32.sp、24.sp、20.sp、18.sp | 页面标题层级 |
+## TextSizes
 
-## 布局尺寸
+`TextSizes` 是 `defaultTextStyles()` 的尺寸输入。所有字段可选；未传入时使用下列默认值。
 
-尺寸 token 覆盖图标、圆角、间距和派生比例，优先选择语义级别，而不是在组件中写固定 `dp`
+<ParamField path="main" type="TextUnit" default="17.sp">
+通用正文。
+</ParamField>
 
-| Token | 默认值 |
-| --- | --- |
-| `iconSize` | `xs` 12.dp、`sm` 16.dp、`md` 20.dp、`lg` 24.dp、`xl` 32.dp、`xxl` 40.dp |
-| `radius` | `xs` 4.dp、`sm` 6.dp、`md` 8.dp、`lg` 12.dp、`xl` 16.dp |
-| `spacing` | `none` 0.dp、`xxs` 2.dp、`xs` 4.dp、`sm` 6.dp、`md` 8.dp、`lg` 12.dp、`xl` 16.dp、`xxl` 24.dp、`xxxl` 32.dp |
-| `scale` | `paragraphLineHeight` 为 1.3f |
+<ParamField path="body1" type="TextUnit" default="16.sp">
+主要正文。
+</ParamField>
+
+<ParamField path="body2" type="TextUnit" default="14.sp">
+紧凑正文。
+</ParamField>
+
+<ParamField path="paragraph" type="TextUnit" default="17.sp">
+多行正文。行高会乘以 `Scale.paragraphLineHeight`。
+</ParamField>
+
+<ParamField path="button" type="TextUnit" default="17.sp">
+中等字重的控件标签。
+</ParamField>
+
+<ParamField path="footnote1" type="TextUnit" default="13.sp">
+辅助说明。
+</ParamField>
+
+<ParamField path="footnote2" type="TextUnit" default="11.sp">
+最小辅助说明。
+</ParamField>
+
+<ParamField path="headline1" type="TextUnit" default="18.sp">
+显著的分区标题。
+</ParamField>
+
+<ParamField path="headline2" type="TextUnit" default="16.sp">
+紧凑分区标题。
+</ParamField>
+
+<ParamField path="subtitle" type="TextUnit" default="14.sp">
+加粗辅助标题。
+</ParamField>
+
+<ParamField path="title1" type="TextUnit" default="32.sp">
+最大页面标题。
+</ParamField>
+
+<ParamField path="title2" type="TextUnit" default="24.sp">
+大型页面标题。
+</ParamField>
+
+<ParamField path="title3" type="TextUnit" default="20.sp">
+标准页面标题。
+</ParamField>
+
+<ParamField path="title4" type="TextUnit" default="18.sp">
+紧凑页面标题。
+</ParamField>
+
+## Spacing
+
+`MochiTheme.spacing` 是布局间距 token。不要为常规间距再定义组件级常量。
+
+<ParamField path="none" type="Dp" default="0.dp">
+无间距。
+</ParamField>
+
+<ParamField path="xxs" type="Dp" default="2.dp">
+最小间距。
+</ParamField>
+
+<ParamField path="xs" type="Dp" default="4.dp">
+极小间距。
+</ParamField>
+
+<ParamField path="sm" type="Dp" default="6.dp">
+小间距。
+</ParamField>
+
+<ParamField path="md" type="Dp" default="8.dp">
+中等间距。
+</ParamField>
+
+<ParamField path="lg" type="Dp" default="12.dp">
+常用组件间距。
+</ParamField>
+
+<ParamField path="xl" type="Dp" default="16.dp">
+大间距。
+</ParamField>
+
+<ParamField path="xxl" type="Dp" default="24.dp">
+分区间距。
+</ParamField>
+
+<ParamField path="xxxl" type="Dp" default="32.dp">
+大分区间距。
+</ParamField>
+
+## Scale
+
+<ParamField path="paragraphLineHeight" type="Float" default="1.3f">
+`paragraph` 行高相对于字号的倍率。
+</ParamField>
 
 ```kotlin
 Column(

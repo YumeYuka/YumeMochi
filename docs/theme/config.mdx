@@ -18,7 +18,6 @@ val dark = false
 MochiTheme(
     dark = dark,
     colors = lightColors(brand = Color(0xFF006C4C)),
-    extraColors = defaultExtraColors(dark),
 ) {
     AppContent()
 }
@@ -28,7 +27,7 @@ MochiTheme(
 
 ## 参数说明
 
-所有参数都有默认值，你可以按 token 组单独覆盖，`colors` 与 `extraColors` 应保持同一明暗模式
+所有参数都有默认值，可以按 token 组单独覆盖
 
 <ParamField path="dark" type="Boolean" default="isSystemInDarkTheme()">
   标记传入颜色是否为深色模式
@@ -39,15 +38,7 @@ MochiTheme(
 </ParamField>
 
 <ParamField path="extraColors" type="ExtraColors" default="defaultExtraColors(dark)">
-  状态与轻量表面语义色
-</ParamField>
-
-<ParamField path="iconSize" type="IconSizes" default="DefaultIconSizes">
-  图标尺寸 token
-</ParamField>
-
-<ParamField path="radius" type="Radius" default="DefaultRadius">
-  连续圆角 token
+  状态色与表面语义色。它必须与 `dark` 使用相同明暗模式。
 </ParamField>
 
 <ParamField path="spacing" type="Spacing" default="DefaultSpacing">
@@ -66,4 +57,4 @@ MochiTheme(
   接收主题的内容树
 </ParamField>
 
-**注意：** 自定义 `colors` 时，同时传入匹配 `dark` 的 `extraColors`，<u>不要混用不同明暗模式的基础色与状态色</u>
+**注意：** 自定义 `colors` 或 `extraColors` 时，保持传入 token 与 `dark` 的明暗模式一致。

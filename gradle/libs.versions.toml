@@ -12,6 +12,7 @@ kotlin-compose-compiler-gradle-plugin = { module = "org.jetbrains.kotlin:compose
 android-gradle-plugin = { module = "com.android.tools.build:gradle", version.ref = "androidGradle" }
 compose-gradle-plugin = { module = "org.jetbrains.compose:compose-gradle-plugin", version.ref = "compose" }
 compose-runtime = { module = "org.jetbrains.compose.runtime:runtime", version.ref = "compose" }
+compose-animation = { module = "org.jetbrains.compose.animation:animation", version.ref = "compose" }
 compose-foundation = { module = "org.jetbrains.compose.foundation:foundation", version.ref = "compose" }
 compose-ui = { module = "org.jetbrains.compose.ui:ui", version.ref = "compose" }
 compose-desktop-windows = { module = "org.jetbrains.compose.desktop:desktop-jvm-windows-x64", version.ref = "compose" }

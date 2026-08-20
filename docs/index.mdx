@@ -4,7 +4,7 @@ icon: "book-open"
 mode: "center"
 ---
 
-YumeMochi 是一套软乎乎的 Compose UI 库，给 Android 和 Desktop 做一点可爱又轻松的界面
+YumeMochi 是一套 Compose 组件库，为 Android 和 Desktop 提供可复用的自研组件
 
 <GitHub.Repo repo="YumeYuka/YumeMochi" />
 
@@ -13,7 +13,7 @@ YumeMochi 是一套软乎乎的 Compose UI 库，给 Android 和 Desktop 做一�
 
 YumeMochi 发布到 GitHub Packages，在使用库的项目 `settings.gradle.kts` 中添加仓库和读取凭据
 
-```kotlin focus={6-11}
+```kotlin
 dependencyResolutionManagement {
     repositories {
         google()
@@ -31,7 +31,7 @@ dependencyResolutionManagement {
 
 在用户级 `%USERPROFILE%\.gradle\gradle.properties` 中提供凭据
 
-```properties focus={1-2}
+```properties
 gpr.user=YOUR_GITHUB_USERNAME
 gpr.key=YOUR_GITHUB_TOKEN
 ```
@@ -45,21 +45,21 @@ gpr.key=YOUR_GITHUB_TOKEN
 
 <CodeGroup>
 
-```kotlin title="KMP" focus={1}
+```kotlin title="KMP"
 commonMain.dependencies { implementation("moe.yumeyuka.yumemochi:yumemochi:0.1.0") }
 ```
 
-```kotlin title="Android" focus={1}
+```kotlin title="Android"
 implementation("moe.yumeyuka.yumemochi:yumemochi:0.1.0")
 ```
 
-```kotlin title="Desktop" focus={1}
+```kotlin title="Desktop"
 implementation("moe.yumeyuka.yumemochi:yumemochi:0.1.0")
 ```
 
 </CodeGroup>
 
-完整库会解析 Android 与 Windows Desktop 所需的 KMP variant，主题、组件、Lucide Compose 和 Miuix 都会作为传递依赖提供，使用 Miuix 时直接调用它原有的 API
+完整库会解析 Android 与 Windows Desktop 所需的 KMP variant。主题和自研组件会作为传递依赖提供；组件实现统一放在 `:components` 模块
 
   </Step>
   <Step title="提供主题">

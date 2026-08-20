@@ -3,48 +3,177 @@ title: "颜色系统"
 icon: "swatch-book"
 ---
 
-组件使用 `MochiTheme.colors`，不要在组件内固定颜色
+颜色只通过 `MochiTheme` 读取。组件实现使用语义 token，不直接写十六进制值。`MochiTheme.colors` 是基础界面色；`MochiTheme.extraColors` 是状态色。
 
 ```kotlin
-Text(
-    text = "标题",
-    color = MochiTheme.colors.text1,
+import moe.yumeyuka.yumemochi.theme.MochiTheme
+
+BasicText(
+    text = "Title",
+    style = MochiTheme.textStyles.title2.copy(
+        color = MochiTheme.colors.text1,
+    ),
 )
 ```
 
-| 字段 | 用途 |
-| --- | --- |
-| `brand` | 主操作、选中和焦点 |
-| `brandAlt` | 轻量品牌背景与次级选中 |
-| `onBrand` | 绘制在 `brand` 上的内容 |
-| `brandDisabled` | 禁用主操作 |
-| `smartTitle` | 需要更强识别度的标题 |
-| `white`、`black` | 必须固定为黑白的内容 |
-| `bg`、`bgAlt`、`bgActive` | 页面、备用和激活背景 |
-| `bgDisabled`、`bgDisabledAlt` | 禁用状态背景 |
-| `border`、`divider` | 交互边框与细分隔线 |
-| `text1`、`text2`、`text3` | 主、辅助和低优先级文字或图标 |
-| `backdrop` | 对话框和抽屉遮罩 |
+## Colors
 
-## 扩展颜色
+`Colors` 由 `lightColors()` 或 `darkColors()` 创建。下列默认值按 `Light / Dark` 顺序列出。
 
-使用 `MochiTheme.extraColors` 表达状态、标签和破坏性操作，每个分组都包含一致的前景、背景和描边角色
+<ParamField path="brand" type="Color" default="#166E3F / #26BD6C">
+主操作、选中状态、焦点和关键强调色。
+</ParamField>
 
-| 分组 | 语义 |
-| --- | --- |
-| `gray`、`blue`、`green` | 中性、信息与成功状态 |
-| `yellow`、`orange`、`red` | 提醒、警告与错误状态 |
-| `purple` | 强调状态 |
-| `white`、`surface` | 白色与普通表面状态 |
-| `whiteDestructive`、`surfaceDestructive` | 破坏性操作表面 |
+<ParamField path="brandAlt" type="Color" default="#458B65 / #209A59">
+轻量品牌背景和次级选中状态。
+</ParamField>
 
-## 分组字段
+<ParamField path="onBrand" type="Color" default="#FFFFFF / #180D0C">
+绘制在 `brand` 表面上的文字和图标。
+</ParamField>
 
-`ExtraColor` 是扩展颜色的统一数据结构，使用组内字段，而不要为状态组件额外指定原始色值
+<ParamField path="brandDisabled" type="Color" default="#B9D3C5 / #0E2A1C">
+禁用主操作。
+</ParamField>
 
-| 字段 | 用途 |
-| --- | --- |
-| `container` | 状态背景或标签容器 |
-| `text` | 容器内文字 |
-| `icon` | 容器内图标 |
-| `stroke` | 容器描边 |
+<ParamField path="smartTitle" type="Color" default="#166E3F / #8DDEDE">
+需要比普通标题更强识别度的标题色。
+</ParamField>
+
+<ParamField path="white" type="Color" default="#FFFFFF / #FFFFFF">
+必须固定为白色的内容。
+</ParamField>
+
+<ParamField path="black" type="Color" default="#000000 / #000000">
+必须固定为黑色的内容。
+</ParamField>
+
+<ParamField path="bg" type="Color" default="#FFFFFF / #0A0D0D">
+页面或窗口背景。
+</ParamField>
+
+<ParamField path="bgAlt" type="Color" default="#F5F7F8 / #121515">
+输入框、分组区域和备用背景。
+</ParamField>
+
+<ParamField path="bgActive" type="Color" default="#EEF1EF / #262827">
+整块组件在按下或激活时的背景。
+</ParamField>
+
+<ParamField path="bgDisabled" type="Color" default="#F5F7F8 / #1A1D1D">
+禁用表面的基础背景。
+</ParamField>
+
+<ParamField path="bgDisabledAlt" type="Color" default="#E9EAE9 / #242527">
+禁用表面的备用背景。
+</ParamField>
+
+<ParamField path="border" type="Color" default="#166E3F / #26BD6C">
+交互控件的边框和焦点边框。
+</ParamField>
+
+<ParamField path="divider" type="Color" default="#E9EAE9 / #242527">
+组件内部和列表之间的细分隔线。
+</ParamField>
+
+<ParamField path="text1" type="Color" default="#171A18 / #DFE1E0">
+主文字和高优先级图标。
+</ParamField>
+
+<ParamField path="text2" type="Color" default="#111827 / #FFFFFF">
+辅助文字和普通图标。
+</ParamField>
+
+<ParamField path="text3" type="Color" default="#838182 / #9FA1A0">
+占位符、禁用文字和低优先级图标。
+</ParamField>
+
+<ParamField path="backdrop" type="Color" default="#99000000 / #99000000">
+对话框、抽屉和阻塞层后的遮罩。
+</ParamField>
+
+## ExtraColor
+
+`ExtraColor` 描述单个状态等级的表面、文字、图标和边框颜色。Toast 等状态组件应从这里选择等级，而不是自行推导颜色。
+
+<ParamField path="container" type="Color" required>
+该等级的柔和表面色。
+</ParamField>
+
+<ParamField path="text" type="Color" required>
+该等级的标题和高优先级文字色。
+</ParamField>
+
+<ParamField path="icon" type="Color" required>
+该等级的图标色。
+</ParamField>
+
+<ParamField path="stroke" type="Color" required>
+该等级的边框和描边色。
+</ParamField>
+
+## ExtraColors
+
+`ExtraColors` 的默认值来自 `lightExtraColors()` 或 `darkExtraColors()`。每个字段都是一组 `ExtraColor`，并包含 `container`、`text`、`icon`、`stroke` 四种角色。
+
+<ParamField path="gray" type="ExtraColor" default="lightExtraColors().gray / darkExtraColors().gray">
+中性状态。
+</ParamField>
+
+<ParamField path="blue" type="ExtraColor" default="lightExtraColors().blue / darkExtraColors().blue">
+信息和强调状态。
+</ParamField>
+
+<ParamField path="green" type="ExtraColor" default="lightExtraColors().green / darkExtraColors().green">
+成功状态。
+</ParamField>
+
+<ParamField path="yellow" type="ExtraColor" default="lightExtraColors().yellow / darkExtraColors().yellow">
+警告状态。
+</ParamField>
+
+<ParamField path="orange" type="ExtraColor" default="lightExtraColors().orange / darkExtraColors().orange">
+高关注但未失败的状态。
+</ParamField>
+
+<ParamField path="red" type="ExtraColor" default="lightExtraColors().red / darkExtraColors().red">
+错误和危险状态。
+</ParamField>
+
+<ParamField path="purple" type="ExtraColor" default="lightExtraColors().purple / darkExtraColors().purple">
+独立于品牌色的特殊分类状态。
+</ParamField>
+
+<ParamField path="white" type="ExtraColor" default="lightExtraColors().white / darkExtraColors().white">
+白色表面上的中性内容。
+</ParamField>
+
+<ParamField path="surface" type="ExtraColor" default="lightExtraColors().surface / darkExtraColors().surface">
+普通组件表面。
+</ParamField>
+
+<ParamField path="whiteDestructive" type="ExtraColor" default="lightExtraColors().whiteDestructive / darkExtraColors().whiteDestructive">
+白色表面上的破坏性内容。
+</ParamField>
+
+<ParamField path="surfaceDestructive" type="ExtraColor" default="lightExtraColors().surfaceDestructive / darkExtraColors().surfaceDestructive">
+带危险语义的表面。
+</ParamField>
+
+## 覆盖颜色
+
+只覆盖需要改变的 token。`lightColors()` 和 `darkColors()` 的每个字段都有默认值，因此品牌定制不需要重建 `Colors`。
+
+```kotlin
+import moe.yumeyuka.yumemochi.theme.MochiTheme
+import moe.yumeyuka.yumemochi.theme.lightColors
+
+MochiTheme(
+    colors = lightColors(
+        brand = productBrand,
+        border = productBrand,
+    ),
+) {
+    AppContent()
+}
+```

@@ -25,9 +25,14 @@
           "theme/index",
           "theme/config",
           "theme/colors",
-          "theme/type",
-          "theme/icons",
-          "theme/surface"
+          "theme/type"
+        ]
+      },
+      {
+        "group": "组件",
+        "pages": [
+          "components/toast",
+          "components/toast-host"
         ]
       }
     ]
