@@ -1,3 +1,9 @@
+/*
+ * Copyright (c) 2026 YumeYuka
+ *
+ * SPDX-License-Identifier: BSD 3-Clause License
+ */
+
 package moe.yumeyuka.yumemochi.advanced
 
 import androidx.compose.foundation.layout.Box
@@ -19,7 +25,8 @@ import top.yukonga.miuix.kmp.squircle.squircleSurface
  *
  * Create and attach a Miuix `LayerBackdrop` to the content behind this component, then pass the
  * same instance as [backdrop]. Blur is disabled automatically when runtime shaders are unavailable.
- * Keep this component for transient or small surfaces; blur captures and processes background pixels.
+ * Keep this component for transient or small surfaces; blur captures and processes background
+ * pixels.
  *
  * ```kotlin
  * val backdrop = rememberLayerBackdrop()
@@ -48,15 +55,16 @@ public fun MochiGlassSurface(
     val shape = RoundedCornerShape(cornerRadius)
 
     Box(
-        modifier = modifier
-            .clip(shape)
-            .drawBackdrop(
-                backdrop = backdrop,
-                shape = { shape },
-                effects = { blur(blurRadius.toPx()) },
-                onDrawSurface = { drawRect(containerColor) },
-            )
-            .squircleSurface(color = Color.Transparent, cornerRadius = cornerRadius),
+        modifier =
+            modifier
+                .clip(shape)
+                .drawBackdrop(
+                    backdrop = backdrop,
+                    shape = { shape },
+                    effects = { blur(blurRadius.toPx()) },
+                    onDrawSurface = { drawRect(containerColor) },
+                )
+                .squircleSurface(color = Color.Transparent, cornerRadius = cornerRadius)
     ) {
         content()
     }

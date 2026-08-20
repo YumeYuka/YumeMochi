@@ -1,3 +1,9 @@
+/*
+ * Copyright (c) 2026 YumeYuka
+ *
+ * SPDX-License-Identifier: BSD 3-Clause License
+ */
+
 package moe.yumeyuka.yumemochi.example.android
 
 import android.os.Bundle

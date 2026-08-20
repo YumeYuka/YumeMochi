@@ -1,3 +1,9 @@
+/*
+ * Copyright (c) 2026 YumeYuka
+ *
+ * SPDX-License-Identifier: BSD 3-Clause License
+ */
+
 package moe.yumeyuka.yumemochi.advanced
 
 import androidx.compose.foundation.layout.Column
@@ -28,24 +34,19 @@ public fun YumeMochiCard(
 ) {
     val colors = MochiTheme.colors
 
-    Column(
-        modifier = modifier
-            .yumeMochiSurface()
-            .padding(16.dp),
-    ) {
+    Column(modifier = modifier.yumeMochiSurface().padding(16.dp)) {
         BasicText(
             text = title,
-            style = TextStyle(
-                color = colors.text1,
-                fontSize = 16.sp,
-                fontWeight = FontWeight.SemiBold,
-            ),
+            style =
+                TextStyle(
+                    color = colors.text1,
+                    fontSize = 16.sp,
+                    fontWeight = FontWeight.SemiBold,
+                ),
         )
         BasicText(
             text = description,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = 4.dp),
+            modifier = Modifier.fillMaxWidth().padding(top = 4.dp),
             style = TextStyle(color = colors.text2, fontSize = 14.sp),
         )
     }

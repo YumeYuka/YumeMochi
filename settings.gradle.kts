@@ -32,7 +32,7 @@ rootProject.name = "YumeMochi"
 include(":theme")
 include(":basic")
 include(":advanced")
-include(":yumemochi")
+include(":library")
 include(":example:shared")
 include(":example:android")
 include(":example:desktop")
