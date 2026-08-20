@@ -1,0 +1,51 @@
+---
+title: "主题概览"
+icon: "palette"
+---
+
+将 `MochiTheme` 放在应用内容的最外层，后代 composable 会自动读取同一份主题状态
+
+```kotlin
+import androidx.compose.runtime.Composable
+import moe.yumeyuka.yumemochi.theme.MochiTheme
+
+@Composable
+fun App() {
+    MochiTheme {
+        AppContent()
+    }
+}
+```
+
+<CardGroup cols={2}>
+  <Card title="主题配置" icon="sliders" href="/theme/config">
+    配置主题参数与状态
+  </Card>
+  <Card title="颜色系统" icon="palette" href="/theme/colors">
+    使用基础色与扩展语义色
+  </Card>
+  <Card title="排版尺寸" icon="text-size" href="/theme/type">
+    使用文字、间距、圆角与尺寸
+  </Card>
+  <Card title="图标组件" icon="icons" href="/theme/icons">
+    渲染 Lucide 图标
+  </Card>
+  <Card title="表面效果" icon="square" href="/theme/surface">
+    使用圆角与玻璃表面
+  </Card>
+</CardGroup>
+
+## 读取状态
+
+以下属性由 `MochiTheme` 暴露，仅能在 `@Composable` 上下文内读取，并会随主题配置自动更新
+
+| 属性 | 类型 | 说明 |
+| --- | --- | --- |
+| `colors` | `Colors` | 当前基础语义色 |
+| `extraColors` | `ExtraColors` | 标签、状态与破坏性操作颜色 |
+| `textStyles` | `TextStyles` | 当前文字样式 |
+| `iconSize` | `IconSizes` | 图标尺寸 |
+| `radius` | `Radius` | 连续圆角尺寸 |
+| `spacing` | `Spacing` | 布局间距 |
+| `scale` | `Scale` | 派生比例 |
+| `dark` | `Boolean` | 当前颜色是否为深色模式 |

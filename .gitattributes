@@ -1,0 +1,33 @@
+# Normalize line endings
+* text=auto eol=lf
+
+# Kotlin
+*.kt text
+*.kts text
+
+# Gradle
+*.gradle text
+*.gradle.kts text
+
+# Markdown / YAML / JSON
+*.md text
+*.yml text
+*.yaml text
+*.json text
+
+# Shell
+*.sh text eol=lf
+
+# Windows scripts
+*.bat text eol=crlf
+
+# Binary files
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.webp binary
+*.ico binary
+*.jar binary
+*.aar binary
+*.zip binary

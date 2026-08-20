@@ -1,0 +1,79 @@
+---
+title: "开始使用"
+icon: "book-open"
+mode: "center"
+---
+
+YumeMochi 是一套软乎乎的 Compose UI 库，给 Android 和 Desktop 做一点可爱又轻松的界面
+
+<GitHub.Repo repo="YumeYuka/YumeMochi" />
+
+<Steps>
+  <Step title="配置仓库">
+
+YumeMochi 发布到 GitHub Packages，在使用库的项目 `settings.gradle.kts` 中添加仓库和读取凭据
+
+```kotlin focus={6-11}
+dependencyResolutionManagement {
+    repositories {
+        google()
+        mavenCentral()
+        maven {
+            url = uri("https://maven.pkg.github.com/YumeYuka/YumeMochi")
+            credentials {
+                username = providers.gradleProperty("gpr.user").orNull
+                password = providers.gradleProperty("gpr.key").orNull
+            }
+        }
+    }
+}
+```
+
+在用户级 `%USERPROFILE%\.gradle\gradle.properties` 中提供凭据
+
+```properties focus={1-2}
+gpr.user=YOUR_GITHUB_USERNAME
+gpr.key=YOUR_GITHUB_TOKEN
+```
+
+**注意：** 令牌需要 GitHub Packages 的 `read:packages` 权限，<u>不要把令牌写入项目或提交到版本库</u>
+
+  </Step>
+  <Step title="添加依赖">
+
+按项目类型添加同一个完整库，KMP 放在 `commonMain`，Android 与 Desktop 放在应用模块的依赖块
+
+<CodeGroup>
+
+```kotlin title="KMP" focus={1}
+commonMain.dependencies { implementation("moe.yumeyuka.yumemochi:yumemochi:0.1.0") }
+```
+
+```kotlin title="Android" focus={1}
+implementation("moe.yumeyuka.yumemochi:yumemochi:0.1.0")
+```
+
+```kotlin title="Desktop" focus={1}
+implementation("moe.yumeyuka.yumemochi:yumemochi:0.1.0")
+```
+
+</CodeGroup>
+
+完整库会解析 Android 与 Windows Desktop 所需的 KMP variant，使用方不需要分别依赖主题、组件、Lucide Compose 或 Miuix，内部模块只作为传递依赖发布
+
+  </Step>
+  <Step title="提供主题">
+
+将 `MochiTheme` 放在 Android、Desktop 或 KMP 共享 UI 的根部
+
+```kotlin
+@Composable
+fun App() {
+    MochiTheme {
+        AppContent()
+    }
+}
+```
+
+  </Step>
+</Steps>

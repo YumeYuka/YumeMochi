@@ -1,0 +1,45 @@
+---
+title: "排版尺寸"
+icon: "type"
+---
+
+从 `MochiTheme.textStyles` 读取文字样式，文字颜色由组件明确指定
+
+```kotlin
+BasicText(
+    text = "设置",
+    style = MochiTheme.textStyles.title2.copy(
+        color = MochiTheme.colors.text1,
+    ),
+)
+```
+
+| 字段 | 默认字号 | 用途 |
+| --- | --- | --- |
+| `main` | 17.sp | 默认正文 |
+| `body1`、`body2` | 16.sp、14.sp | 常规与紧凑正文 |
+| `paragraph` | 17.sp | 多行正文 |
+| `button` | 17.sp | 中等字重控件标签 |
+| `footnote1`、`footnote2` | 13.sp、11.sp | 辅助说明 |
+| `headline1`、`headline2` | 18.sp、16.sp | 分区标题 |
+| `subtitle` | 14.sp | 加粗辅助标题 |
+| `title1` 至 `title4` | 32.sp、24.sp、20.sp、18.sp | 页面标题层级 |
+
+## 布局尺寸
+
+尺寸 token 覆盖图标、圆角、间距和派生比例，优先选择语义级别，而不是在组件中写固定 `dp`
+
+| Token | 默认值 |
+| --- | --- |
+| `iconSize` | `xs` 12.dp、`sm` 16.dp、`md` 20.dp、`lg` 24.dp、`xl` 32.dp、`xxl` 40.dp |
+| `radius` | `xs` 4.dp、`sm` 6.dp、`md` 8.dp、`lg` 12.dp、`xl` 16.dp |
+| `spacing` | `none` 0.dp、`xxs` 2.dp、`xs` 4.dp、`sm` 6.dp、`md` 8.dp、`lg` 12.dp、`xl` 16.dp、`xxl` 24.dp、`xxxl` 32.dp |
+| `scale` | `paragraphLineHeight` 为 1.3f |
+
+```kotlin
+Column(
+    verticalArrangement = Arrangement.spacedBy(MochiTheme.spacing.lg),
+) {
+    Content()
+}
+```

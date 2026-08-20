@@ -1,0 +1,24 @@
+package moe.yumeyuka.yumemochi.build.convention
+
+import moe.yumeyuka.yumemochi.build.config.YumeMochiBuild
+import org.gradle.api.Plugin
+import org.gradle.api.Project
+import org.gradle.kotlin.dsl.configure
+import org.jetbrains.kotlin.gradle.dsl.KotlinJvmProjectExtension
+
+public class YumeMochiDesktopApplicationPlugin : Plugin<Project> {
+    override fun apply(target: Project) {
+        target.group = YumeMochiBuild.group
+        target.version = YumeMochiBuild.version
+
+        with(target.pluginManager) {
+            apply("org.jetbrains.kotlin.jvm")
+            apply("org.jetbrains.compose")
+            apply("org.jetbrains.kotlin.plugin.compose")
+        }
+
+        target.extensions.configure<KotlinJvmProjectExtension> {
+            sourceSets.getByName("main").kotlin.srcDir("src")
+        }
+    }
+}

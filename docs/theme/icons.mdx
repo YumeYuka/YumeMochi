@@ -1,0 +1,66 @@
+---
+title: "图标组件"
+icon: "shapes"
+---
+
+传入 Lucide 图标与无障碍描述即可渲染，装饰性图标不应重复朗读时可传 `null`
+
+```kotlin
+import io.github.yumeyucca.lucide.Lucide
+import moe.yumeyuka.yumemochi.theme.MochiIcon
+
+MochiIcon(
+    imageVector = Lucide.Info,
+    contentDescription = "信息",
+)
+```
+
+## 参数说明
+
+默认 `tint` 和 `size` 读取主题 token，只有需要强调或改变信息层级时才显式覆盖
+
+<ParamField path="imageVector" type="ImageVector" required={true}>
+  Lucide 图标，例如 `Lucide.Info`
+</ParamField>
+
+<ParamField path="contentDescription" type="String?" required={true}>
+  无障碍标签，纯装饰图标传 `null`
+</ParamField>
+
+<ParamField path="modifier" type="Modifier" default="Modifier">
+  在固定尺寸前应用的 Modifier
+</ParamField>
+
+<ParamField path="tint" type="Color" default="MochiTheme.colors.text1">
+  图标颜色
+</ParamField>
+
+<ParamField path="size" type="Dp" default="MochiTheme.iconSize.md">
+  图标正方形边长
+</ParamField>
+
+## 覆盖取值
+
+覆盖颜色或尺寸时仍使用主题 token，而不要自行固定颜色或像素大小
+
+```kotlin
+MochiIcon(
+    imageVector = Lucide.Info,
+    contentDescription = "信息",
+    tint = MochiTheme.colors.brand,
+    size = MochiTheme.iconSize.lg,
+)
+```
+
+## 无障碍
+
+交互元素中的图标应提供描述，图标与相邻可见文本表达同一含义时，传递 `null`，避免屏幕阅读器重复朗读
+
+```kotlin
+MochiIcon(
+    imageVector = Lucide.Info,
+    contentDescription = null,
+)
+```
+
+**注意：** Lucide Compose 从 GitHub Packages 解析，使用 `gpr.user` 与具有 `read:packages` 权限的 `gpr.key`，或设置 `GITHUB_ACTOR` 与 `GITHUB_TOKEN`，<u>不要提交令牌</u>

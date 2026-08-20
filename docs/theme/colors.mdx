@@ -1,0 +1,50 @@
+---
+title: "颜色系统"
+icon: "swatch-book"
+---
+
+组件使用 `MochiTheme.colors`，不要在组件内固定颜色
+
+```kotlin
+Text(
+    text = "标题",
+    color = MochiTheme.colors.text1,
+)
+```
+
+| 字段 | 用途 |
+| --- | --- |
+| `brand` | 主操作、选中和焦点 |
+| `brandAlt` | 轻量品牌背景与次级选中 |
+| `onBrand` | 绘制在 `brand` 上的内容 |
+| `brandDisabled` | 禁用主操作 |
+| `smartTitle` | 需要更强识别度的标题 |
+| `white`、`black` | 必须固定为黑白的内容 |
+| `bg`、`bgAlt`、`bgActive` | 页面、备用和激活背景 |
+| `bgDisabled`、`bgDisabledAlt` | 禁用状态背景 |
+| `border`、`divider` | 交互边框与细分隔线 |
+| `text1`、`text2`、`text3` | 主、辅助和低优先级文字或图标 |
+| `backdrop` | 对话框和抽屉遮罩 |
+
+## 扩展颜色
+
+使用 `MochiTheme.extraColors` 表达状态、标签和破坏性操作，每个分组都包含一致的前景、背景和描边角色
+
+| 分组 | 语义 |
+| --- | --- |
+| `gray`、`blue`、`green` | 中性、信息与成功状态 |
+| `yellow`、`orange`、`red` | 提醒、警告与错误状态 |
+| `purple` | 强调状态 |
+| `white`、`surface` | 白色与普通表面状态 |
+| `whiteDestructive`、`surfaceDestructive` | 破坏性操作表面 |
+
+## 分组字段
+
+`ExtraColor` 是扩展颜色的统一数据结构，使用组内字段，而不要为状态组件额外指定原始色值
+
+| 字段 | 用途 |
+| --- | --- |
+| `container` | 状态背景或标签容器 |
+| `text` | 容器内文字 |
+| `icon` | 容器内图标 |
+| `stroke` | 容器描边 |
